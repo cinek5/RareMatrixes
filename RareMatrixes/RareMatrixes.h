@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "stdafx.h"
 using namespace std;
 class RareMatrixes {
 public:
@@ -15,6 +16,10 @@ public:
 	void setName(int index,string name);
 	void cloneMat(int index);
 	void defVal(int index, int* coordinates, int value);
+	void list();
+	void print(int index);
+	int getNumOfDims(int index);
+	
 	
 private:
 	vector<CSparseMatrix*> matrices;

@@ -65,7 +65,7 @@ void CSparseMatrix::defineNewValue(int * coordinates, int value)
 			defined_cells[index]->value = value;
 		}
 		else { // new CSparseCell object needs  to be created
-			cout << "dupa" << endl;
+		
 			CSparseCell* newCell = new CSparseCell(num_of_dims, coordinates, value);
 			insertNewCell(newCell);
 		}
@@ -130,6 +130,22 @@ bool CSparseMatrix::checkCoordinatesBounds(int * coordinates)
 		if (dims_range_array[i] <= coordinates[i]) return false;
 	}
 	return true;
+}
+
+string CSparseMatrix::getNameSizeStringRepresentation()
+{
+
+	string matrix_representation;
+	matrix_representation = this->name;
+	matrix_representation += " size: [ ";
+	for (int i = 0; i < num_of_dims; i++) {
+		matrix_representation += to_string(dims_range_array[i]);
+		matrix_representation += " ";
+	}
+
+	matrix_representation += " ]";
+
+	return matrix_representation;
 }
 
 

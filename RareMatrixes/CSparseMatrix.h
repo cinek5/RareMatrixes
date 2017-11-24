@@ -23,6 +23,7 @@ public:
 	string getName();
 	void setName(string name);
 	bool checkCoordinatesBounds(int *coordinates);
+	string getNameSizeStringRepresentation();
 
 
 private:
