@@ -65,6 +65,10 @@ void CSparseMatrix::defineNewValue(int * coordinates, int value)
 			defined_cells[index]->value = value;
 		}
 		else { // new CSparseCell object needs  to be created
+			
+			if (num_defined_cells + 1 > allocated_sparsecells_array_size) { // realocate the array if it's too small
+				reallocateCellsArray(allocated_sparsecells_array_size * 2);
+			} 
 		
 			CSparseCell* newCell = new CSparseCell(num_of_dims, coordinates, value);
 			insertNewCell(newCell);
@@ -72,6 +76,10 @@ void CSparseMatrix::defineNewValue(int * coordinates, int value)
 	} else { // now we have to check if deletion is needed
 		if (index != -1) {
 			deleteCell(index);
+			
+			if (allocated_sparsecells_array_size >= num_defined_cells * 2)
+				reallocateCellsArray(allocated_sparsecells_array_size * 3 / 4);
+				
 		}
 	}
 
@@ -229,36 +237,39 @@ int CSparseMatrix::findSparseCellIndex(int * coordinates)
 	
 	CSparseCell tempCell(num_of_dims, coordinates);
 	
-	return binarySearchHelper(tempCell, 0, num_defined_cells);
+	return binarySearchHelper(tempCell, 0, num_defined_cells-1);
 }
 int CSparseMatrix::findSparseCellIndex(CSparseCell & cell)
 {
-	return binarySearchHelper(cell, 0, num_defined_cells);
+	return binarySearchHelper(cell, 0, num_defined_cells-1);
 }
 int CSparseMatrix::binarySearchHelper(CSparseCell & cell, int left, int right)
 {
-	if (right >= 1)
+	if (left<=right && num_defined_cells>0)
 	{
-		int mid = left + (right - left) / 2;
+		int mid = left + ( (right - left) / 2) ;
 		
 		if (cell.hasEqualCoordinates(defined_cells[mid]->coordinates))  return mid;
 
 	
-		if (defined_cells[mid]->isMoreThan(&cell)) return binarySearchHelper(cell,left, mid - 1);
+		if (defined_cells[mid]->isMoreThan(&cell)) return binarySearchHelper(cell,left, mid-1 );
 
 		
-		return binarySearchHelper(cell, mid + 1, right);
+		return binarySearchHelper(cell, mid+1, right);
 	}
 	return -1;
 }
 
 void CSparseMatrix::reallocateCellsArray(int newSize)
 {
-	cout << "realocating.." << endl;
+	
 	CSparseCell** new_cells_array = new (CSparseCell*[newSize]);
+	
+	allocated_sparsecells_array_size = newSize;
 	for (int i = 0; i < num_defined_cells; i++) {
 		new_cells_array[i] = defined_cells[i];
 	}
+    
 	delete [] defined_cells; //kasuje nieuzywane wskazniki
 	defined_cells = new_cells_array;
 }
