@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CSparseMatrix.h"
 #include "helperfunctions.h"
+#include "MatrixPrinterHelper.h"
+
 
 CSparseMatrix::CSparseMatrix()
 {
@@ -132,6 +134,30 @@ void CSparseMatrix::init(int num_of_dims, int * dims_range_array, int default_va
 	allocated_sparsecells_array_size = DEFAULT_ALLOCATED_SPARSECELLS_ARRAY_SIZE;
 }
 
+void CSparseMatrix::tick(vector<int>& iter, int index)
+{
+	if (index >= 0 && index < iter.size()) {
+		if (iter[index] + 1 <= dims_range_array[index] - 1) {
+			iter[index]++;
+		}
+		else {
+			iter[index] = 0;
+			tick(iter, index - 1);
+
+		}
+	}
+
+	
+}
+
+bool CSparseMatrix::isDone(vector<int>& iter)
+{
+	for (int i = 0; i < iter.size(); i++) {
+		if (iter[i] != dims_range_array[i] - 1) return false;
+	}
+	return true;
+}
+
 bool CSparseMatrix::checkCoordinatesBounds(int * coordinates)
 {
 	for (int i = 0; i < num_of_dims; i++) {
@@ -190,36 +216,33 @@ string CSparseMatrix::getStringRepresentation()
 	}
 
 	matrix_representation += " ] values: ";
-	
-	for (int i = 0; i < num_defined_cells; i++) {
-		matrix_representation += "[ ";
-		CSparseCell * cell = defined_cells[i];
-		for (int j = 0; j < num_of_dims; j++) {
+
+	MatrixPrinterHelper printHelper(num_of_dims,dims_range_array);
+	while (!printHelper.isDone()) {
+		
+		int * coords = printHelper.getCoords();
+		matrix_representation += " [";
+		for (int i = 0; i < num_of_dims; i++) {
+			matrix_representation += " " +to_string(coords[i])+" ";
 			
-			matrix_representation += to_string(cell->coordinates[j]);
-		    matrix_representation += " ";
 		}
-		matrix_representation += "]: ";
-	    matrix_representation += to_string(cell->getValue());
-		matrix_representation += "; ";
+	
+	
+		int index = findSparseCellIndex(coords);
+		matrix_representation += "]: "+ to_string(index==-1? default_value : defined_cells[index]->value  )+" ; " ;
+		
+		printHelper.tick();
 	}
-
+	
 
 	
 
-	/*
-	int current_csparsecell_index = 0;
-    
-	for (int i = 0; i < num_of_dims; i++) {
-		for (int j = 0; j < dims_range_array[i]; j++) {
+	
 
-		}
-	}
-
-	return string();
-	*/
+	
 	return matrix_representation;
 }
+
 
 string CSparseMatrix::getName()
 {

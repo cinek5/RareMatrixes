@@ -3,6 +3,7 @@
 #include "CSparseCell.h"
 #include <iostream>
 #include "Communicate.h"
+#include <vector>
 #define DEFAULT_NAME "def_name"
 #define DEFAULT_ALLOCATED_SPARSECELLS_ARRAY_SIZE 8
 using namespace std;
@@ -42,6 +43,8 @@ private:
 	void deleteCell(int index);
 	void printCommunicate(Communicate communicate);
 	void init(int num_of_dims, int *dims_range_array, int default_value);
+	void tick(vector<int> & iter, int index);
+	bool isDone(vector<int> & iter);
 
 	
 

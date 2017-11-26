@@ -147,6 +147,7 @@
     <ClInclude Include="CSparseCell.h" />
     <ClInclude Include="CSparseMatrix.h" />
     <ClInclude Include="helperfunctions.h" />
+    <ClInclude Include="MatrixPrinterHelper.h" />
     <ClInclude Include="UserInterface.h" />
     <ClInclude Include="RareMatrixes.h" />
     <ClInclude Include="stdafx.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="CSparseCell.cpp" />
     <ClCompile Include="CSparseMatrix.cpp" />
     <ClCompile Include="helperfunctions.cpp" />
+    <ClCompile Include="MatrixPrinterHelper.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RareMatrixes.cpp" />
