@@ -43,9 +43,7 @@ private:
 	void deleteCell(int index);
 	void printCommunicate(Communicate communicate);
 	void init(int num_of_dims, int *dims_range_array, int default_value);
-	void tick(vector<int> & iter, int index);
-	bool isDone(vector<int> & iter);
-
+	string getSingleCellStringRepresentation(int *coords);
 	
 
 };

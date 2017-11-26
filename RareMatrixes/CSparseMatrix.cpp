@@ -134,29 +134,22 @@ void CSparseMatrix::init(int num_of_dims, int * dims_range_array, int default_va
 	allocated_sparsecells_array_size = DEFAULT_ALLOCATED_SPARSECELLS_ARRAY_SIZE;
 }
 
-void CSparseMatrix::tick(vector<int>& iter, int index)
+string CSparseMatrix::getSingleCellStringRepresentation(int * coords)
 {
-	if (index >= 0 && index < iter.size()) {
-		if (iter[index] + 1 <= dims_range_array[index] - 1) {
-			iter[index]++;
-		}
-		else {
-			iter[index] = 0;
-			tick(iter, index - 1);
+  string 	cell_representation = "";
+	cell_representation += " [";
+	for (int i = 0; i < num_of_dims; i++) {
+		cell_representation += " " + to_string(coords[i]) + " ";
 
-		}
 	}
 
-	
+
+	int index = findSparseCellIndex(coords);
+	cell_representation += "]: " + to_string(index == -1 ? default_value : defined_cells[index]->value) + " ; ";
+	return cell_representation;
 }
 
-bool CSparseMatrix::isDone(vector<int>& iter)
-{
-	for (int i = 0; i < iter.size(); i++) {
-		if (iter[i] != dims_range_array[i] - 1) return false;
-	}
-	return true;
-}
+
 
 bool CSparseMatrix::checkCoordinatesBounds(int * coordinates)
 {
@@ -218,20 +211,18 @@ string CSparseMatrix::getStringRepresentation()
 	matrix_representation += " ] values: ";
 
 	MatrixPrinterHelper printHelper(num_of_dims,dims_range_array);
+
+	matrix_representation += getSingleCellStringRepresentation(printHelper.getCoords());
+	
 	while (!printHelper.isDone()) {
-		
-		int * coords = printHelper.getCoords();
-		matrix_representation += " [";
-		for (int i = 0; i < num_of_dims; i++) {
-			matrix_representation += " " +to_string(coords[i])+" ";
-			
-		}
-	
-	
-		int index = findSparseCellIndex(coords);
-		matrix_representation += "]: "+ to_string(index==-1? default_value : defined_cells[index]->value  )+" ; " ;
-		
+
 		printHelper.tick();
+
+		matrix_representation += getSingleCellStringRepresentation(printHelper.getCoords());
+
+		
+	
+
 	}
 	
 

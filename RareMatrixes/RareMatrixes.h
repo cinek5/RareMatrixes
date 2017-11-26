@@ -25,6 +25,7 @@ private:
 	vector<CSparseMatrix*> matrices;
 	bool checkIndex(int index);
 	bool checkCoordinates(int index, int* coordinates);
+	bool checkRange(int * dims_array_range,int num_of_dims);
 	void destroyMatrixes();
 
 

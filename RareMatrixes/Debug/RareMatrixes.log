@@ -1,4 +1,7 @@
 ﻿  CSparseMatrix.cpp
-c:\users\cinek\source\repos\rarematrixes\rarematrixes\csparsematrix.cpp(139): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\cinek\source\repos\rarematrixes\rarematrixes\csparsematrix.cpp(155): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  Generowanie kodu...
+  Pomijanie... (nie wykryto odpowiednich zmian)
+  main.cpp
+  UserInterface.cpp
+  RareMatrixes.cpp
   RareMatrixes.vcxproj -> C:\Users\Cinek\source\repos\RareMatrixes\Debug\RareMatrixes.exe
